@@ -10,5 +10,5 @@ const Header = () => {
     </header>
   );
 };
-// export default memo(Header);
-export default Header;
+export default memo(Header);
+// export default Header;
