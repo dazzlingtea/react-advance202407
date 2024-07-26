@@ -1,4 +1,9 @@
+- redux install
+  `$ npm install redux react-redux -y`
+
 # Getting Started with Create React App
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
