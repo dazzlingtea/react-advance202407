@@ -1,10 +1,4 @@
-import {createStore} from "redux";
-
-// 액션 타입 상수
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
-export const MULTIPLY = 'MULTIPLY';
-export const TOGGLE = 'TOGGLE';
+import {configureStore, createSlice} from "@reduxjs/toolkit";
 
 
 // 관리할 초기 상태값 객체
@@ -20,40 +14,44 @@ const initialCountState = {
   param2 action : 상태를 어떻게 변경할지에 대한 명세
   return - 변경 후 새로운 상태값
  */
-const counterReducer = (state = initialCountState, action) => {
 
-  //1. 상태값 변경시 반드시 새로운 상태를 반환
-  //2. 상태값 변경은 반드시 새로운 객체를 할당해야 함
-  switch (action.type) {
-    case INCREMENT:
-      return {
-        ...state, // 기본 리덕스는 다른 이전 상태값도 가져와야 함
-        counter: state.counter + 1
-      };
-    case DECREMENT:
-      return {
-        ...state,
-        counter: state.counter - 1
-      };
-    case MULTIPLY:
-      return {
-        ...state,
-        counter: state.counter * action.payload
-      };
-    case TOGGLE:
-      return {
-        ...state,
-        showCounter: !state.showCounter
-      };
-    default:
-      return state;
+// reducer를 slice로 변경
+/*
+  option객체에 들어가 있는 프로퍼티 설명
+  prop1: name - 컴포넌트가 해당 리듀서를 사용할 때 부르는 이름
+  prop2: initialState - 관리할 상태값들의 초기값
+  prop3: reducers - 기존 리듀서에서 사용하던 내용들(실제 액션)
+ */
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: initialCountState,
+  reducers: {
+    // increment: () => {}
+    increment(state) {
+      state.counter++;
+    },
+    decrement(state) {
+      state.counter--;
+    },
+    multiply(state, action) {
+      // console.log('state: ',state);
+      // console.log('action: ',action);
+      state.counter *= action.payload;
+    },
+    toggle(state) {
+      state.showCounter = !state.showCounter;
+    },
   }
-};
+});
 
 // 단하나의 리덕스 스토어
-// 요즘엔 configure store를 쓰는데 먼저 이해하기 위해 createStore 학습
 // 스토어에는 여러 리듀서를 제공할 수 있다.
-const store = createStore(counterReducer);
+const store = configureStore({
+  reducer: counterSlice.reducer,
+});
+
+// 슬라이스 안에 reducers에 정의한 함수들을 내보내기
+export const counterActions  = counterSlice.actions;
 
 // 리액트의 index.js에게 store를 제공
 export default store;
