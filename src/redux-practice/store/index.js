@@ -3,6 +3,7 @@ import {createStore} from "redux";
 // 액션 타입 상수
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
+export const MULTIPLY = 'MULTIPLY';
 
 
 // 관리할 초기 상태값 객체
@@ -19,9 +20,6 @@ const initialCountState = {
  */
 const counterReducer = (state = initialCountState, action) => {
 
-  console.log('prev state : ', initialCountState);
-  console.log('action: ', action);
-
   //1. 상태값 변경시 반드시 새로운 상태를 반환
   //2. 상태값 변경은 반드시 새로운 객체를 할당해야 함
   switch (action.type) {
@@ -32,6 +30,10 @@ const counterReducer = (state = initialCountState, action) => {
     case DECREMENT:
       return {
         counter: state.counter - 1
+      };
+    case MULTIPLY:
+      return {
+        counter: state.counter * action.payload
       };
     default:
       return state;
